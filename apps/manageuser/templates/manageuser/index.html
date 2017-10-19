@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Login/Registration</title>
+    <style>
+        div{
+            display: inline-block;
+            vertical-align: top;
+        }
+        .error{
+            color: red;
+            font-size: 12px;
+        }
+        </style>
+</head>
+<body>
+    <h1>Register Here</h1>
+    <form action='/register' method='POST'>
+        {% csrf_token %}
+        <table id="registertable">
+        {% if messages %}
+            {% for message in messages %}
+                {% if 'firstname' in message.tags %}
+                    <tr><td class="error">{{ message }}</td></tr>
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+            <tr><td>First Name: </td><td><input type="text" name="firstname"></td></tr>
+        {% if messages %}
+            {% for message in messages %}
+                {% if 'lastname' in message.tags %}
+                    <tr><td class="error">{{ message }}</td></tr>
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+            <tr><td>Last name: </td><td><input type="text" name="lastname"></td></tr>
+        {% if messages %}
+            {% for message in messages %}
+                {% if 'email' in message.tags %}
+                    <tr><td class="error">{{ message }}</td></tr>
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+            <tr><td>Email: </td><td><input type="email" name="email"></td></tr>
+        {% if messages %}
+            {% for message in messages %}
+                {% if 'password' in message.tags %}
+                    <tr><td class="error">{{ message }}</td></tr>
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+            <tr><td>Password: </td><td><input type="password" name="password" ></td></tr>
+        {% if messages %}
+            {% for message in messages %}
+                {% if 'pwconf' in message.tags %}
+                    <tr><td class="error">{{ message }}</td></tr>
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+            <tr><td>PW Confirmation: </td><td><input type="password" name="pwconf"></td></tr>
+            <tr>
+                <td><input type="submit" value="Add"></td>
+            </tr>
+        </table>
+      </form>
+      </div>
+
+      <div>
+      <h2> Login </h2>
+      <form action='/login' method='POST'>
+        {% csrf_token %}
+            <table id="logintable">
+                <tr><td>Email: </td><td><input type="text" name="login_email"></td></tr>
+                <tr><td>Password: </td><td><input type="password" name="login_password"></td></tr>
+                <tr><td><input type="submit" value="Login"></td></tr>
+            </table>
+        </form>
+        </div>
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Add Book</title>
+</head>
+<body>
+    <div id="header">
+        <a href="/bookspage">Home</a>
+        <a href="/logout">Logout</a>
+    </div>
+    <form method="post" action="/process_addbook">
+        {% csrf_token %}
+    <table>
+        <tr>
+            <td><p class="th">Book Title:</p></td>
+            <td><input type="text" name="booktitle"></td>
+        </tr>
+        <tr><td><p class="th">Author:</p></td></tr>
+        <tr>
+            <table id="author">
+                <tr>
+                    <td><p>Choose from the list:</p></td>
+                    <td><select name="authorname">
+                        {% for author in authors %}
+                            <option value="{{author.id}}">{{author.firstname}} {{author.lastname}}</option>    
+                        {% endfor %}
+                    </select></td>
+                </tr>
+                <tr>
+                    <td><p>Or add a new author:</p></td>
+                    <td><input type="text" name="newauthor"></td>
+                </tr>
+            </table>
+        </tr>
+        <tr>
+            <td><p class="th">Review:</p></td>
+            <td><textarea name="reviewdescription" cols=40 rows=5></textarea></td>
+        </tr>
+        <tr>
+            <td><p class="th">Rating:</p></td>
+            <td><select name="rating">
+                    <option value="5">5</option>
+                    <option value="4">4</option>
+                    <option value="3">3</option>
+                    <option value="2">2</option>
+                    <option value="1">1</option>
+                </select></td>
+        </tr>
+        <tr>
+            <input type="submit" name="submit" value="Add">
+        </tr>
+        
+    </table>
+    </form>
+
+</body>
+</html>

@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Homepage</title>
+    <style>
+        * {
+            margin: 0px;
+            padding: 0px;
+        }
+        #header{
+            border: 1px solid black;
+            padding: 10px 10px 10px 10px;
+        }
+        #header>h1{
+            display: inline-block;
+        }
+        #navbar{
+            display: inline-block;
+            float:right;
+            margin-right: 30px;
+            font-size: 15px;
+            line-height: 40px;
+        }
+        #navbar>a{
+            margin-right: 10px;
+        }
+        #recentbookreviews{
+            display: inline-block;
+            border: 1px solid black;
+            width: 45%;
+            padding: 20px 20px 20px 20px;
+        }
+        #otherbookreviews{
+            display: inline-block;
+            border: 1px solid black;
+            vertical-align: top;
+            width: 30%;
+            padding: 20px 20px 20px 20px;
+        }
+        .booktitle{
+            margin-left: 10px;
+            padding: 10px 10px 10px 10px;
+            font-size: 18px;
+        }
+        .eachbook{
+            padding: 20px 20px 20px 20px;
+        }
+        .review{
+            margin-left: 20px;
+        }
+        .rating{
+            padding: 10px 10px 10px 20px;
+        }
+        .date{
+            font-style: italic;
+            margin-top: 8px;
+            padding-left: 20px;
+        }
+        .cancel{
+            float:right;
+            top:0;
+            right:0;
+        }
+    </style>
+</head>
+<body>
+    <div id="header">
+        <h1> Welcome, {{request.session.user.firstname}} </h1>
+        <div id="navbar">
+            <a href="/addbook">Add Book and Review</a>
+            <a href="/logout">Logout</a>
+        </div>
+    </div>
+    <div id="recentbookreviews">
+        <h3>Recent Book Reviews:</h3>
+        {% for book in books %}
+            <div class="eachbook">
+            <p class="booktitle"><a href="/book/{{book.id}}">{{book.title}}</a></p>
+
+            <div class="review">
+                {% for review in reviews%}
+                    {% if review.book.title == book.title %}
+                        {% if review.user.id == request.session.user.id %}
+                        <form action='/remove' method="POST">{% csrf_token %} <input type="hidden" name="cancel" value="{{review.id}}"><input type="submit" value="X" class="cancel"></form>
+                        {% endif %}
+                        <p class="rating">Rating: {{review.reviewrating}}</p>
+                        <p class="review"><a class="username" href="/display_user/{{review.user.id}}">{{review.user.firstname}}</a> says: {{review.reviewdes}}</p>
+                        <p class="date">Posted on {{review.created_at}}</p>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+        {% endfor %}
+
+    </div>
+
+    <div id="otherbookreviews">
+        <h3> Other Books with Reviews:</h3>
+        <div>
+            {% for book in bookswithreviews %}
+                <p class="otherbooks"> <a href="/book/{{book.id}}">{{book.title}}</a></p></br>
+            {% endfor %}
+
+
+    
+        </div>
+
+    </div>
+</body>
+</html>
